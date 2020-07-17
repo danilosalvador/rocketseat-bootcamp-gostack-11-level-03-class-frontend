@@ -12,11 +12,11 @@ export default createGlobalStyle`
 
   body {
     background: #F0F0F5 url(${githubBackgroundImage}) no-repeat 70% top;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased; /* Para deixar o texto com um desenho mais suave */
   }
 
   body, input, button {
-    font: 16px Roboto, sans-serif;
+    font: 16px Roboto, sans-serif; /* a fonte Roboto está sendo importado no public/index.html */
   }
 
   #root {
