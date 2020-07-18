@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
 import logoImage from '../../assets/logo.svg';
-import { Title, Form, Repository } from './style';
+import { Title, Form, Repository, Error } from './style';
 
 import api from '../../services/api';
 
@@ -16,6 +16,7 @@ interface Repository {
 }
 
 const Dashboard: React.FC = () => {
+  const [inputError, setInputError] = useState('');
   const [repositoryName, setRepositoryName] = useState('');
   const [repositories, setRepositories] = useState<Repository[]>([]);
 
@@ -24,12 +25,22 @@ const Dashboard: React.FC = () => {
   ): Promise<void> {
     event.preventDefault();
 
-    const response = await api.get(`repos/${repositoryName}`);
+    if (!repositoryName) {
+      setInputError('Preencher o autor/nome do repositório.');
+      return;
+    }
 
-    const repository = response.data;
+    try {
+      const response = await api.get(`repos/${repositoryName}`);
 
-    setRepositories([...repositories, repository]);
-    setRepositoryName('');
+      const repository = response.data;
+
+      setRepositories([...repositories, repository]);
+      setRepositoryName('');
+      setInputError('');
+    } catch (err) {
+      setInputError('Erro ao pesquisar o repositório.');
+    }
   }
 
   return (
@@ -37,7 +48,7 @@ const Dashboard: React.FC = () => {
       <img src={logoImage} alt="Github Explorer" />
       <Title>Explore Repositórios no Github</Title>
 
-      <Form onSubmit={AddRepository}>
+      <Form hasError={!!inputError} onSubmit={AddRepository}>
         <input
           value={repositoryName}
           onChange={e => setRepositoryName(e.target.value)}
@@ -45,6 +56,8 @@ const Dashboard: React.FC = () => {
         />
         <button type="submit">Pesquisar</button>
       </Form>
+
+      {inputError && <Error>{inputError}</Error>}
 
       <Repository>
         {repositories.map(repository => (
