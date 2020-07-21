@@ -30,6 +30,7 @@ export const Form = styled.form<FormProps>`
     border: 2px solid #fff;
     border-right: 0;
 
+    transition: border-color 0.2s;
     ${props =>
       props.hasError &&
       css`
@@ -49,8 +50,8 @@ export const Form = styled.form<FormProps>`
     border: 0;
     color: #fff;
     font-weight: bold;
-    transition: background-color 0.1s;
 
+    transition: background-color 0.1s;
     &:hover {
       background: ${shade(0.2, '#04d361')};
     }
@@ -69,13 +70,13 @@ export const Repository = styled.div`
     text-decoration: none;
     display: flex;
     align-items: center;
-    transition: transform 0.2s;
 
     /* Irá aplicar o estilo a partir do segundo elemento */
     & + a {
       margin-top: 16px;
     }
 
+    transition: transform 0.2s;
     &:hover {
       transform: translateX(3px);
     }
